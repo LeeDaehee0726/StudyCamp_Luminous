@@ -96,8 +96,21 @@ fun AndroidSignupScreen(
 
                 result.onSuccess { userId ->
                     Log.d("AndroidSignupScreen", "✅ 회원가입 성공! userId: $userId")
-                    isLoading = false
-                    onSignupSuccess()
+
+                    // 회원가입 성공 후 자동 로그인 시도
+                    Log.d("AndroidSignupScreen", "자동 로그인 시도 중...")
+                    val loginResult = authRepository.login(email, password, autoLogin = true)
+
+                    loginResult.onSuccess {
+                        Log.d("AndroidSignupScreen", "✅ 자동 로그인 성공!")
+                        isLoading = false
+                        onSignupSuccess()
+                    }.onFailure { loginError ->
+                        Log.e("AndroidSignupScreen", "❌ 자동 로그인 실패: ${loginError.message}")
+                        // 자동 로그인 실패해도 회원가입은 성공했으므로 다음 화면으로 이동
+                        isLoading = false
+                        onSignupSuccess()
+                    }
                 }.onFailure { error ->
                     Log.e("AndroidSignupScreen", "❌ 회원가입 실패: ${error.message}")
                     // JSON에서 message 필드만 추출
