@@ -542,7 +542,7 @@ fun SignupScreen(
 
                         val annotatedText = buildAnnotatedString {
                             append("(필수) ")
-                            pushStringAnnotation(tag = "privacy", annotation = "https://your-github-pages-url/privacy-policy.html")
+                            pushStringAnnotation(tag = "privacy", annotation = "https://leedaehee0726.github.io/StudyCamp_Luminous/docs/privacy-policy.html")
                             withStyle(style = SpanStyle(
                                 color = Color(0xFF6DD5FA),
                                 textDecoration = TextDecoration.Underline
